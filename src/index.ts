@@ -84,6 +84,47 @@ class TicTacToe {
     }
 }
 
+class HumanPlayer extends TicTacToe {
+    private name:string;
+    private mark:string;
+    //has part is going their
+    constructor(name:string, mark:string){
+        super();
+        this.name = name;
+        this.mark = mark
+    }
+
+    //before you make a move always check that if the move is valed or not
+    makeMove(mark:Board):void{
+/*  step1: -  we needs to take input from keyboard 
+    step2: - Accept input enter the row and column
+    step3: - store row values in into a number varable call row
+    step4: - store column values in into a number varable call column
+*/ 
+              let row: number, col: number;
+              // Reading row and column inputs
+              const input = readlineSync.question('Format: row column\n');
+              //as long as user make wrong move he get a chance
+              do {
+                console.log(`\n${this.name}, enter your move (row and column, separated by space:`);
+                const [rowInput, colInput] = input.split(' ').map(Number);
+                row = rowInput - 1;
+                col = colInput - 1;
+              } while (!this.isValidMove(row, col)); //suppose cell is not empty so return false so, false and false became true, so he get a chance
+              this.placeMark(row, col, mark);
+    }
+    //logic is move is valed 
+    isValidMove(row:number, col:number):boolean{
+        if ((row > 0 && row <= 2 ) && (col >= 0 && col <=2)){
+             // Access the cell value using `this.cells[row][col]`
+            if (this.cells[row][col] === Board.Empty) {
+                    return true
+                }
+            return false
+        }
+    }
+}
+
 
 const game = new TicTacToe();
 game.displayBoard()
@@ -91,8 +132,3 @@ game.displayBoard()
 console.log(game.checkDiagonalWin());
 console.log(game.checkRowWin());
 console.log(game.checkColumnWin());
-
-
-
-
-

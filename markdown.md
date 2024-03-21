@@ -64,3 +64,18 @@ game.displayBoard();
 game.placeMark(0, 0, Board.X);
 game.displayBoard();
 ```
+
+- class of human player
+
+```
+class is a collection of variable and methods
+gave two part has part does part
+gas part name: string
+and mark is characteer
+
+does part
+markaMove()
+isValid move
+
+in setter local variable name is same as instance variable humanplayer(local)
+```
