@@ -57,8 +57,8 @@ class TicTacToe {
               (this.cells[1][j] === this.cells[2][j])) {
                 return true
            }
-            return false
         }
+        return false
     }
 
     checkRowWin():boolean{
@@ -67,8 +67,8 @@ class TicTacToe {
               (this.cells[i][1] === this.cells[i][2])) {
                 return true
            }
-            return false
         }
+        return false
     }
 
     checkDiagonalWin():boolean{
@@ -85,50 +85,72 @@ class TicTacToe {
 }
 
 class HumanPlayer extends TicTacToe {
-    private name:string;
-    private mark:string;
-    //has part is going their
-    constructor(name:string, mark:string){
+    public name:string;
+    private mark:Board;
+    constructor(name:string, mark:Board){
         super();
         this.name = name;
         this.mark = mark
     }
 
-    //before you make a move always check that if the move is valed or not
-    makeMove(mark:Board):void{
-/*  step1: -  we needs to take input from keyboard 
-    step2: - Accept input enter the row and column
-    step3: - store row values in into a number varable call row
-    step4: - store column values in into a number varable call column
-*/ 
+    makeMove():void{
               let row: number, col: number;
-              // Reading row and column inputs
-              const input = readlineSync.question('Format: row column\n');
-              //as long as user make wrong move he get a chance
               do {
+                const input = readlineSync.question('Format: row column\n');
                 console.log(`\n${this.name}, enter your move (row and column, separated by space:`);
                 const [rowInput, colInput] = input.split(' ').map(Number);
-                row = rowInput - 1;
-                col = colInput - 1;
-              } while (!this.isValidMove(row, col)); //suppose cell is not empty so return false so, false and false became true, so he get a chance
-              this.placeMark(row, col, mark);
+                row = rowInput;
+                col = colInput;
+              } while (!this.isValidMove(row, col)); 
+              this.placeMark(row, col, this.mark);
     }
-    //logic is move is valed 
+
     isValidMove(row:number, col:number):boolean{
-        if ((row > 0 && row <= 2 ) && (col >= 0 && col <=2)){
-             // Access the cell value using `this.cells[row][col]`
+        if ((row >= 0 && row < 3 ) && (col >= 0 && col < 3)){
             if (this.cells[row][col] === Board.Empty) {
                     return true
                 }
             return false
         }
+        return false
     }
+}
+
+class LanchGame extends HumanPlayer{
+   private player1:HumanPlayer; 
+   private player2:HumanPlayer;
+   private currentPlayer:HumanPlayer; //Reference
+
+    constructor(){
+        super("dummy",Board.Empty);
+        this.player1 = new HumanPlayer("bob", Board.X);
+        this.player2 = new HumanPlayer("Priya", Board.O);
+        this.currentPlayer = this.player1;
+     //make a infinite loop for check every time condition
+
+        while (true) {
+            console.log(this.currentPlayer.name + " is Your Turn");
+            this.currentPlayer.makeMove();
+            game.displayBoard()
+            //if curren player not win change to 2
+            if (game.checkColumnWin() || game.checkRowWin() || game.checkDiagonalWin()) {
+                 console.log(this.currentPlayer.name + "has won"); 
+                 break;
+            }else{
+                if (this.currentPlayer === this.player1) {
+                        this.currentPlayer = this.player2 
+                }else{
+                        this.currentPlayer = this.player1
+                }
+            }
+        }
+    }
+  
 }
 
 
 const game = new TicTacToe();
 game.displayBoard()
+const ticTacToeGame = new LanchGame();
 
-console.log(game.checkDiagonalWin());
-console.log(game.checkRowWin());
-console.log(game.checkColumnWin());
+

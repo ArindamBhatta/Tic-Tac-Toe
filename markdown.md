@@ -79,3 +79,22 @@ isValid move
 
 in setter local variable name is same as instance variable humanplayer(local)
 ```
+
+```
+class LanchGame extends HumanPlayer{
+   player1 = new HumanPlayer("bob", "X");
+   player2 = new HumanPlayer("Priya", "O");
+   //find current player
+    HumanPlayer currentplayer;
+
+    currentplayer = this.player1;
+
+    console.log(currentplayer.name + "goes First");
+}
+```
+
+- why i cant do that
+
+1. Scope Issue: currentplayer is declared outside of any method in the LanchGame class, which isn't valid TypeScript. Variables should be declared within methods or the class scope, not directly within the class body.
+
+2. Initialization Timing: Even if you fix the scope issue, you're trying to initialize currentplayer outside of any method or constructor, meaning it gets initialized immediately when the class is instantiated, rather than at the start of the game.
