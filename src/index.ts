@@ -118,7 +118,7 @@ class HumanPlayer {
     let row: number, col: number;
     do {
       console.log(`${this.name}, enter your move (row and column, separated by space):`);
-      const input = readlineSync.question('Format: row column\n');
+      const input = readlineSync.question('First Move for your array index configuration you can skip that by pressing a enter\n');
       const [rowInput, colInput] = input.split(' ').map(Number);
       row = rowInput;
       col = colInput;
@@ -143,8 +143,8 @@ class LaunchGame {
 
   constructor() {
     this.game = new TicTacToe();
-    this.player1 = new HumanPlayer("Bob", Board.X, this.game);
-    this.player2 = new HumanPlayer("Priya", Board.O, this.game);
+    this.player1 = new HumanPlayer("Arindam", Board.X, this.game);
+    this.player2 = new HumanPlayer("Player1", Board.O, this.game);
     this.currentPlayer = this.player1;
 
     while (true) {
