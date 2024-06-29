@@ -1,10 +1,10 @@
-import * as readlineSync from 'readline-sync';
+import * as readlineSync from "readline-sync";
 
 enum Board {
   Empty,
-  X,
-  O,
-  Draw,
+  x, //this value is one of the enum values
+  o, // this value is two of the enum values
+  Draw
 }
 
 class TicTacToe {
@@ -14,7 +14,7 @@ class TicTacToe {
     this.cells = [
       [Board.Empty, Board.Empty, Board.Empty],
       [Board.Empty, Board.Empty, Board.Empty],
-      [Board.Empty, Board.Empty, Board.Empty],
+      [Board.Empty, Board.Empty, Board.Empty]
     ];
   }
 
@@ -33,73 +33,77 @@ class TicTacToe {
   private symbolForCell(cell: Board): string {
     switch (cell) {
       case Board.Empty:
-        return ' ';
-      case Board.X:
-        return 'X';
-      case Board.O:
-        return 'O';
+        return " ";
+      case Board.x:
+        return "X";
+      case Board.o:
+        return "O";
       default:
-        return '';
+        return "";
     }
   }
 
   placeMark(row: number, col: number, value: Board): void {
-    if (row >= 0 && row < 3 && col >= 0 && col < 3) {
+    if (this.cells[row][col] === Board.Empty) {
       this.cells[row][col] = value;
     } else {
-      console.log("Invalid Position");
+      console.log("This position is already taken.");
     }
   }
 
-  // Function to check for win conditions in rows
   checkRowWin(): Board {
     for (let i = 0; i < 3; i++) {
-      if (this.cells[i][0] !== Board.Empty &&
+      if (
+        this.cells[i][0] !== Board.Empty &&
         this.cells[i][0] === this.cells[i][1] &&
-        this.cells[i][1] === this.cells[i][2]) {
+        this.cells[i][1] === this.cells[i][2]
+      ) {
         return this.cells[i][0];
       }
     }
-    return Board.Empty; // No winner in any row yet
+    return Board.Empty;
   }
 
-  // Function to check for win conditions in columns
   checkColumnWin(): Board {
     for (let i = 0; i < 3; i++) {
-      if (this.cells[0][i] !== Board.Empty &&
+      if (
+        this.cells[0][i] !== Board.Empty &&
         this.cells[0][i] === this.cells[1][i] &&
-        this.cells[1][i] === this.cells[2][i]) {
+        this.cells[1][i] === this.cells[2][i]
+      ) {
         return this.cells[0][i];
       }
     }
-    return Board.Empty; // No winner in any column yet
+    return Board.Empty;
   }
 
-  // Function to check for win conditions in diagonals
   checkDiagonalWin(): Board {
-    if (this.cells[0][0] !== Board.Empty &&
+    if (
+      this.cells[0][0] !== Board.Empty &&
       this.cells[0][0] === this.cells[1][1] &&
-      this.cells[1][1] === this.cells[2][2]) {
+      this.cells[1][1] === this.cells[2][2]
+    ) {
       return this.cells[0][0];
     }
-    if (this.cells[0][2] !== Board.Empty &&
+    if (
+      this.cells[0][2] !== Board.Empty &&
       this.cells[0][2] === this.cells[1][1] &&
-      this.cells[1][1] === this.cells[2][0]) {
+      this.cells[1][1] === this.cells[2][0]
+    ) {
       return this.cells[0][2];
     }
-    return Board.Empty; // No winner in diagonals yet
+    return Board.Empty;
   }
 
-  // Function to check for a draw (all cells are filled)
-  checkForDraw(): boolean {
+  checkDraw(): boolean {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         if (this.cells[i][j] === Board.Empty) {
-          return false; // Game not over (empty cell found)
+          return false;
         }
       }
     }
-    return true; // Draw condition (all cells filled)
+    return true;
   }
 }
 
@@ -117,21 +121,26 @@ class HumanPlayer {
   makeMove(): void {
     let row: number, col: number;
     do {
-      console.log(`${this.name}, enter your move (row and column, separated by space):`);
-      const input = readlineSync.question('First Move for your array index configuration you can skip that by pressing a enter\n');
-      const [rowInput, colInput] = input.split(' ').map(Number);
-      row = rowInput;
-      col = colInput;
+      console.log(`${this.name}'s turn.`);
+      const input = readlineSync.question("Enter row and column:\n");
+      const [rowArr, colArr] = input.split(" ").map(Number);
+      if (!isNaN(rowArr) && !isNaN(colArr)) {
+        row = rowArr;
+        col = colArr;
+      } else {
+        console.log("Please enter numbers separated by a space, for example, '0 0'.");
+        continue;
+      }
     } while (!this.isValidMove(row, col));
     this.game.placeMark(row, col, this.mark);
   }
 
   isValidMove(row: number, col: number): boolean {
-    if (this.game.cells[row][col] === Board.Empty) {
+    if (row >= 0 && row < 3 && col >= 0 && col < 3) {
       return true;
+    } else {
+      console.log("Index out of bounds.");
     }
-    console.log("Invalid Move! Cell is already occupied.");
-    return false;
   }
 }
 
@@ -143,30 +152,34 @@ class LaunchGame {
 
   constructor() {
     this.game = new TicTacToe();
-    this.player1 = new HumanPlayer("Arindam", Board.X, this.game);
-    this.player2 = new HumanPlayer("Player1", Board.O, this.game);
+    this.player1 = new HumanPlayer("Player X", Board.x, this.game);
+    this.player2 = new HumanPlayer("Player 0", Board.o, this.game);
     this.currentPlayer = this.player1;
+  }
 
+  startGame(): void {
     while (true) {
-      console.log(this.currentPlayer.name + "'s Turn");
       this.currentPlayer.makeMove();
       this.game.displayBoard();
 
-      if (this.game.checkColumnWin() || this.game.checkRowWin() || this.game.checkDiagonalWin()) {
-        console.log(this.currentPlayer.name + " has won");
+      if (
+        this.game.checkRowWin() !== Board.Empty ||
+        this.game.checkColumnWin() !== Board.Empty ||
+        this.game.checkDiagonalWin() !== Board.Empty
+      ) {
+        console.log(this.currentPlayer.name + " wins!");
         break;
       }
 
-      // Check for draw
-      if (this.game.checkForDraw()) {
-        console.log("It's a draw!");
+      if (this.game.checkDraw()) {
+        console.log("Draw!");
         break;
       }
 
-      // Switch players
-      this.currentPlayer = (this.currentPlayer === this.player1) ? this.player2 : this.player1;
+      this.currentPlayer = this.currentPlayer === this.player1 ? this.player2 : this.player1;
     }
   }
 }
 
-const ticTacToeGame = new LaunchGame();
+const game = new LaunchGame();
+game.startGame();
