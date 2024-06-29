@@ -15,7 +15,6 @@ This project implements a simple command-line Tic-Tac-Toe game using TypeScript.
 
 1. Ensure you have Node.js and npm installed on your machine.
 2. Clone this repository: 
-git clone [https://github.com/yourusername/tic-tac-toe-ts.git](https://github.com/ArindamBhatta/Tic-Tac-Toe)
 
 ### Game Structure
 #### Board Enum
