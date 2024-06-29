@@ -2,7 +2,7 @@ import * as readlineSync from "readline-sync";
 
 enum Board {
   Empty,
-  x, //this value is one of the enum values
+  x, // this value is one of the enum values
   o, // this value is two of the enum values
   Draw
 }
@@ -43,11 +43,13 @@ class TicTacToe {
     }
   }
 
-  placeMark(row: number, col: number, value: Board): void {
+  placeMark(row: number, col: number, value: Board): boolean {
     if (this.cells[row][col] === Board.Empty) {
       this.cells[row][col] = value;
+      return true;
     } else {
       console.log("This position is already taken.");
+      return false;
     }
   }
 
@@ -120,6 +122,7 @@ class HumanPlayer {
 
   makeMove(): void {
     let row: number, col: number;
+    let moveMade: boolean = false;
     do {
       console.log(`${this.name}'s turn.`);
       const input = readlineSync.question("Enter row and column:\n");
@@ -127,12 +130,13 @@ class HumanPlayer {
       if (!isNaN(rowArr) && !isNaN(colArr)) {
         row = rowArr;
         col = colArr;
+        if (this.isValidMove(row, col)) {
+          moveMade = this.game.placeMark(row, col, this.mark);
+        }
       } else {
         console.log("Please enter numbers separated by a space, for example, '0 0'.");
-        continue;
       }
-    } while (!this.isValidMove(row, col));
-    this.game.placeMark(row, col, this.mark);
+    } while (!moveMade);
   }
 
   isValidMove(row: number, col: number): boolean {
@@ -140,6 +144,7 @@ class HumanPlayer {
       return true;
     } else {
       console.log("Index out of bounds.");
+      return false;
     }
   }
 }
@@ -153,7 +158,7 @@ class LaunchGame {
   constructor() {
     this.game = new TicTacToe();
     this.player1 = new HumanPlayer("Player X", Board.x, this.game);
-    this.player2 = new HumanPlayer("Player 0", Board.o, this.game);
+    this.player2 = new HumanPlayer("Player O", Board.o, this.game);
     this.currentPlayer = this.player1;
   }
 
