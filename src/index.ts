@@ -2,8 +2,8 @@ import * as readlineSync from "readline-sync";
 
 enum Board {
   Empty,
-  x, // this value is one of the enum values
-  o, // this value is two of the enum values
+  x,
+  o,
   Draw
 }
 
