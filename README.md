@@ -15,7 +15,7 @@ This project implements a simple command-line Tic-Tac-Toe game using TypeScript.
 
 1. Ensure you have Node.js and npm installed on your machine.
 2. Clone this repository: 
-git clone https://github.com/yourusername/tic-tac-toe-ts.git
+git clone [https://github.com/yourusername/tic-tac-toe-ts.git](https://github.com/ArindamBhatta/Tic-Tac-Toe)
 
 ### Game Structure
 #### Board Enum
@@ -39,7 +39,7 @@ displayBoard(): Displays the current state of the board.
 
 - checkColumnWin(): Checks if there is a winning condition in any column.
 
-- checkDiagonalWin(): Checks if there is a winning condition in either diagonal.
+- checkDiagonalWin(): Checks if a winning condition exists in either diagonal.
 
 - checkDraw(): Checks if the game is a draw.
 
