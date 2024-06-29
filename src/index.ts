@@ -109,7 +109,13 @@ class TicTacToe {
   }
 }
 
-class HumanPlayer {
+interface Player {
+  name: string;
+  makeMove(): void;
+  isValidMove(row: number, col: number): boolean;
+}
+
+class HumanPlayer implements Player {
   public name: string;
   private mark: Board;
   private game: TicTacToe;
@@ -149,16 +155,54 @@ class HumanPlayer {
   }
 }
 
-class LaunchGame {
-  private player1: HumanPlayer;
-  private player2: HumanPlayer;
-  private currentPlayer: HumanPlayer;
+class AIPlayer implements Player {
+  public name: string;
+  private mark: Board;
   private game: TicTacToe;
 
-  constructor() {
+  constructor(name: string, mark: Board, game: TicTacToe) {
+    this.name = name;
+    this.mark = mark;
+    this.game = game;
+  }
+
+  makeMove(): void {
+    let moveMade: boolean = false;
+    while (!moveMade) {
+      const row = Math.floor(Math.random() * 3);
+      const col = Math.floor(Math.random() * 3);
+      if (this.isValidMove(row, col)) {
+        moveMade = this.game.placeMark(row, col, this.mark);
+      }
+    }
+  }
+
+  isValidMove(row: number, col: number): boolean {
+    if (row >= 0 && row < 3 && col >= 0 && col < 3) {
+      return true;
+    } else {
+      console.log("Index out of bounds.");
+      return false;
+    }
+  }
+}
+
+class LaunchGame {
+  private player1: Player;
+  private player2: Player;
+  private currentPlayer: Player;
+  private game: TicTacToe;
+
+  constructor(numPlayers: number) {
     this.game = new TicTacToe();
     this.player1 = new HumanPlayer("Player X", Board.x, this.game);
-    this.player2 = new HumanPlayer("Player O", Board.o, this.game);
+
+    if (numPlayers === 2) {
+      this.player2 = new HumanPlayer("Player O", Board.o, this.game);
+    } else {
+      this.player2 = new AIPlayer("AI Player", Board.o, this.game);
+    }
+
     this.currentPlayer = this.player1;
   }
 
@@ -186,5 +230,6 @@ class LaunchGame {
   }
 }
 
-const game = new LaunchGame();
+const numPlayers = parseInt(readlineSync.question("Enter number of players (1 or 2): "));
+const game = new LaunchGame(numPlayers);
 game.startGame();
