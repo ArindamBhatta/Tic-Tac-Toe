@@ -2,7 +2,7 @@ import { TicTacToe } from "./TicTacToe"
 import { Board } from "./Board"
 import { Player } from "./Player.interface"
 import { HumanPlayer } from "./HumanPlayer"
-import { AIPlayer } from "./AIPlayer"
+import { ComputerPlayer } from "./ComputerPlayer"
 
 export class LaunchGame {
   private player1: Player
@@ -17,7 +17,7 @@ export class LaunchGame {
     if (numPlayers === 2) {
       this.player2 = new HumanPlayer("Player O", Board.o, this.game)
     } else {
-      this.player2 = new AIPlayer("AI Player", Board.o, this.game)
+      this.player2 = new ComputerPlayer("Computer Player", Board.o, this.game)
     }
 
     this.currentPlayer = this.player1

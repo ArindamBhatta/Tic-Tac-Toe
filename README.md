@@ -1,5 +1,5 @@
 # Tic-Tac-Toe Game in TypeScript
-This project implements a simple command-line Tic-Tac-Toe game using TypeScript. It supports both single-player (against an AI) and two-player modes. The game logic includes checking for wins across rows, columns, and diagonals, as well as detecting draw conditions.
+This project implements a simple command-line Tic-Tac-Toe game using TypeScript. It supports both single-player (against an Computer player) and two-player modes. The game logic includes checking for wins across rows, columns, and diagonals, as well as detecting draw conditions.
 ## Table of Contents
 - Installation
 - Usage
@@ -60,12 +60,12 @@ The HumanPlayer class implements the Player interface for human players. It prom
 - mark: The player's mark ('X' or 'O').
 - game: The current game instance.
 
-### AIPlayer Class
+### Computer-Player Class
 
-The AIPlayer class implements the Player interface for an AI player. It randomly selects an empty cell to make a move.
+The ComputerPlayer class implements the Player interface for an AI player. It randomly selects an empty cell to make a move.
 
-- name: The AI player's name.
-- mark: The AI player's mark ('X' or 'O').
+- name: The Computer player's name.
+- mark: The Computer player's mark ('X' or 'O').
 - game: The current game instance.
 
 ### LaunchGame Class
@@ -73,7 +73,7 @@ The AIPlayer class implements the Player interface for an AI player. It randomly
 The LaunchGame class initializes the game and manages the game loop. It supports both single-player and two-player modes.
 
 - player1: The first player (always a human player).
-- player2: The second player (either a human player or an AI player).
+- player2: The second player (either a human player or an Computer player).
 - currentPlayer: The player whose turn it is to make a move.
 - game: The current game instance.
 

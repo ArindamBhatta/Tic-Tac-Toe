@@ -2,7 +2,7 @@ import { Board } from "./Board"
 import { TicTacToe } from "./TicTacToe"
 import { Player } from "./Player.interface"
 
-export class AIPlayer implements Player {
+export class ComputerPlayer implements Player {
   public name: string
   private mark: Board
   private game: TicTacToe
